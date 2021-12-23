@@ -12,17 +12,19 @@ export default function App() {
   const [ok, setOk] = useState(true)
 
   const ask = async () => {
-    // grant 를 받아온다.
+    // API로 권한을 요청한다. -> grant 를 받는다.
     const { granted } = await Location.requestForegroundPermissionsAsync()
 
     if (!granted) {
       setOk(false)
     }
 
-    // 현재 위치를 latitude 위도, longitude 경도를 받아온다.
+    // 현재 위치를 latitude 위도, longitude 경도를 받아온다. -> coords 좌표
     const {
       coords: { latitude, longitude },
     } = await Location.getCurrentPositionAsync({ accuracy: 5 })
+
+    // 위도와 경도 위치를 가지고 주소를 가져옴 - 디테일한 주소가 나옴!
     const location = await Location.reverseGeocodeAsync(
       { latitude, longitude },
       { useGoogleMaps: false },
