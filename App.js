@@ -2,15 +2,15 @@ import { StatusBar } from "expo-status-bar";
 import React, { useState, useEffect } from "react";
 import { StyleSheet, Text, View, ScrollView, Dimensions } from "react-native";
 import * as Location from "expo-location";
+import axios from "axios";
 
 // 스크린의 width 를 가져와서 해당 크기만큼 보여준다.
 const { width: SCREEN_WIDTH } = Dimensions.get("window");
-
 const API_KEY = "50dce4045ebe8554cc6612b714499fa1";
 
 export default function App() {
   const [city, setCity] = useState("Loading...");
-  const [days, setDays] = useState(null);
+  const [days, setDays] = useState([]);
   const [ok, setOk] = useState(true);
 
   const ask = async () => {
@@ -32,6 +32,13 @@ export default function App() {
       { useGoogleMaps: false },
     );
     setCity(location[0].city);
+    // API call
+    const response = await axios(
+      `https://api.openweathermap.org/data/2.5/onecall?lat=${latitude}&lon=${longitude}&exclude=alerts&appid=${API_KEY}`,
+    );
+    // const json = await response.json();
+    //console.log("res =>", response.data.daily);
+    setDays(response.data.daily);
   };
 
   useEffect(() => {
