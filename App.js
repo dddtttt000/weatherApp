@@ -3,10 +3,11 @@ import React, { useState, useEffect } from "react";
 import { StyleSheet, Text, View, ScrollView, Dimensions } from "react-native";
 import * as Location from "expo-location";
 import axios from "axios";
+import { API_KEY } from "react-native-dotenv";
+ApiClient.init(API_KEY);
 
 // 스크린의 width 를 가져와서 해당 크기만큼 보여준다.
 const { width: SCREEN_WIDTH } = Dimensions.get("window");
-const API_KEY = "50dce4045ebe8554cc6612b714499fa1";
 
 export default function App() {
   const [city, setCity] = useState("Loading...");
